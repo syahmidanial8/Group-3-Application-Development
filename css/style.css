@@ -314,7 +314,9 @@ header .navbar.navbar-light .nav-link.active {
   font-size: 13px;
 }
 
+
 .site-hero-innerpage, .site-hero-innerpage .site-hero-inner {
+
   min-height: 550px;
   height: 50vh;
 }
@@ -1616,3 +1618,10 @@ textarea.form-control {
     stroke-dashoffset: -136px;
   }
 }
+
+.white-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
