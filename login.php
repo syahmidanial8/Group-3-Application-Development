@@ -78,12 +78,10 @@
                 <button type="reset" class="btn btn-default">Reset</button>
                 <button type="submit" class="btn btn-primary">Proceed</button>
 				
-				<br><br>
-				
-			   <!-- Continue as Visitor button -->
+				<br>
+			   <!-- DISABLED - Continue as Visitor button 
 				<button type="button" class="btn btn-primary" onclick="continueAsVisitor()">Continue as Visitor</button>
-
-				
+					
               </form>
 				<script>
 				  function continueAsVisitor() {
@@ -93,7 +91,7 @@
 					document.querySelector("form").submit();
 				  }
 				</script>			  
-          
+				-->
 			  </div>
 			  <!-- End white box -->	
             </div>

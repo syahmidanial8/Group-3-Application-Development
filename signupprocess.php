@@ -5,12 +5,11 @@ $fid = mysqli_real_escape_string($con, $_POST["fid"]);
 $fpwd = mysqli_real_escape_string($con, $_POST["fpwd"]);  
 $fpwd = password_hash($fpwd, PASSWORD_DEFAULT); 
 $funame = $_POST['funame'];
-$fic = $_POST['fic'];
 $ftel = $_POST['ftel'];
 $fmail = $_POST['fmail'];
 
-$sql = "INSERT INTO o_user(x_userid, x_pwd, x_icnum, x_name,  x_tel,  x_email, x_userclass)
-		VALUES ('$fid', '$fpwd', '$fic', '$funame', '$ftel', '$fmail', '1')";
+$sql = "INSERT INTO o_user(x_userid, x_pwd, x_name,  x_tel,  x_email, x_userclass)
+		VALUES ('$fid', '$fpwd', '$funame', '$ftel', '$fmail', '1')";
 
 mysqli_query($con,$sql);
 mysqli_close($con);

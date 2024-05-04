@@ -80,11 +80,6 @@
                   </div>
 
                   <div class="form-group">
-                    <!--<label for="email" style="color: white;">Identity Card:</label>-->
-                    <input type="text" class="form-control" id="email" placeholder="Identity Card number" name="fic" required>
-                  </div>
-
-                  <div class="form-group">
                     <!--<label for="email" style="color: white;">Contact Number:</label>-->
                     <input type="text" class="form-control" id="cnum" placeholder="Phone number - Format : [3]-[7 or 8] digit, eg : 012-3456789" pattern="[0-9]{3}-[0-9]{7}|[0-9]{3}-[0-9]{8}" name="ftel" required>
                   </div>

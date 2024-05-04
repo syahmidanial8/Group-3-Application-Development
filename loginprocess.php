@@ -12,17 +12,6 @@ include ("dbconnect.php");
 $fid = mysqli_real_escape_string($con, $_POST["fid"]);  
 $fpwd = mysqli_real_escape_string($con, $_POST["fpwd"]); 
 
-if ($fid === "visitor") {
-    // Set the appropriate session variables for a visitor
-    $_SESSION['x_userid'] = session_id();
-    $_SESSION['xuserid'] = $fid;
-    
-    // Redirect to the appropriate page for visitors
-    header('Location: visitor.php');
-    exit;
-}
-
-
 //Get user detail based on login credentials
 $sql = "SELECT * FROM o_user WHERE x_userid = '$fid'";
 //$sql = "SELECT * FROM o_user WHERE x_userid = '$fid' AND x_pwd = '$fpwd'";
@@ -36,7 +25,7 @@ $sql = "SELECT * FROM o_user WHERE x_userid = '$fid'";
 $result = mysqli_query($con, $sql);
 
 
-
+/* Visitor module disabled
 if ($fid === "visitor") {
 	// Set the appropriate session variables for a visitor
 	$_SESSION['x_userid'] = session_id();
@@ -46,7 +35,7 @@ if ($fid === "visitor") {
 	header('Location: visitor.php');
 	exit;
 }
-
+*/
 		
 if(mysqli_num_rows($result) > 0) //($count == 1)  
        {  
