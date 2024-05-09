@@ -105,7 +105,7 @@ $rowb = mysqli_fetch_array($resultb);
                           <label for="chkin">Check In Date</label>
                           <div style="position: relative;">
                             <span class="fa fa-calendar icon" style="position: absolute; right: 10px; top: 10px;"></span>
-                            <input type='date' class="form-control" id='chkin' name='checkindate' required />
+                            <input type='date' class="form-control" id='chkin' name='checkindate' required onchange="setMinCheckoutDate()" />
                           </div>
                       </div>
 
@@ -119,6 +119,14 @@ $rowb = mysqli_fetch_array($resultb);
                       </div>
                       
                   </div>
+				  
+				  <!-- CheckOutDate validation: must equal or greater than CheckInDate -->
+				  <script>
+				  function setMinCheckoutDate() {
+					var checkinDate = document.getElementById("chkin").value;
+					document.getElementById("chkout").min = checkinDate;
+				  }
+				</script>
 
 
                   <div class="row">
