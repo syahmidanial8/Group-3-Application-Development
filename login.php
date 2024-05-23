@@ -102,3 +102,43 @@
     <!-- END section -->
 
 <?php include 'footer.php';?>
+
+<script type="text/javascript" src="js/sweetalert.js" language="javascript"></script>
+<?php
+if (isset($_GET["stype"]) && $_GET["stype"] == 'invalid-pass') {
+    echo '
+        <script>
+            // Use SweetAlert
+            Swal.fire({
+                icon: "warning",
+                title: "Failed to login",
+                text: "User not found or password incorrect",
+            });
+        </script>
+    ';
+}
+else if  (isset($_GET["stype"]) && $_GET["stype"] == 'user-notfound') {
+    echo '
+        <script>
+            // Use SweetAlert
+            Swal.fire({
+                icon: "warning",
+                title: "Failed to login",
+                text: "User not found.",
+            });
+        </script>
+    ';
+}
+else if  (isset($_GET["stype"]) && $_GET["stype"] == 'loggedout') {
+    echo '
+        <script>
+            // Use SweetAlert
+            Swal.fire({
+                icon: "success",
+                title: "Logout Success",
+                text: "See you again !",
+            });
+        </script>
+    ';
+}
+

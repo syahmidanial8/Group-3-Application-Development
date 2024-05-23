@@ -314,10 +314,9 @@ header .navbar.navbar-light .nav-link.active {
   font-size: 13px;
 }
 
-
+/* banner adjust sini  */
 .site-hero-innerpage, .site-hero-innerpage .site-hero-inner {
-
-  min-height: 550px;
+  min-height: 200px;
   height: 50vh;
 }
 

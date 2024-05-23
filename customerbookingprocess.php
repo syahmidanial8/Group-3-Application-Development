@@ -6,15 +6,39 @@ if (!session_id())
 }
 
 include ('dbconnect.php');
+//Prevent modify ID on the URL
+if (!isset($_SERVER['HTTP_REFERER'])) {
+    session_unset();
+    session_destroy();
+    echo '<script>alert("Access Denied! This screen is protected and not available to the public.")</script>';
+    echo '<script>window.location = "index.php"</script>';
+    exit;
+}
+
+// Check if the user is logged in
+if (!isset($_SESSION['userislogged']) || $_SESSION['userislogged'] != 1) {
+    header("Location: index.php?");
+    exit;
+}
+// Check if the necessary session variables are set
+if (!isset($_SESSION['x_userid']) || empty($_SESSION['x_userid'])) {
+    header("Location: index.php?");
+    exit;
+}
+
+$alloweduserclass = array(1);
+if (!in_array($_SESSION['x_userclass'], $alloweduserclass)) {
+    header("Location: index.php?");
+}
 
 //Retrieve data from form and session
-$froom = $_POST['froom'];
-$checkindate = $_POST['checkindate'];
-$checkoutdate = $_POST['checkoutdate'];
-$guestnum = $_POST['guestnum'];
-$email = $_POST['email'];
-$tel = $_POST['tel'];
-$comment = $_POST['comment'];
+$froom = $_GET['froom'];
+$checkindate = $_GET['checkindate'];
+$checkoutdate = $_GET['checkoutdate'];
+$guestnum = $_GET['guestnum'];
+$email = $_GET['email'];
+$tel = $_GET['tel'];
+$comment = $_GET['comment'];
 $fid = $_SESSION['xuserid'];
 
 //Calculate total rent
@@ -28,10 +52,9 @@ $daydiff = abs(strtotime($start)-strtotime($end));
 $daynum = $daydiff/(60*60*24);
 $totalprice = $daynum*($rowp['x_price']);
 
-$sql = "INSERT INTO o_book (x_user, x_room, x_datein, x_dateout, x_totalfee, x_status, x_guestnum, x_emailaddr, x_telnum, x_comment) VALUES ('$fid', '$froom', '$checkindate', '$checkoutdate', '$totalprice', '0', '$guestnum', '$email', '$tel', '$comment')";
+$sql = "INSERT INTO o_book (x_user, x_room, x_datein, x_dateout, x_totalfee, x_status, payment_status, x_guestnum, x_emailaddr, x_telnum, x_comment, x_createddate) VALUES ('$fid', '$froom', '$checkindate', '$checkoutdate', '$totalprice', '0', '1', '$guestnum', '$email', '$tel', '$comment', now())";
 
 //var_dump($sql);
-
 mysqli_query($con,$sql);
 mysqli_close($con);
 
@@ -150,8 +173,15 @@ mysqli_close($con);
 			              	<tr>
 			              		<td></td>
 			              		<td></td>
-			              	</tr>          		
+                        <h1 id="chkout" style="color:white; text-align:center; font-weight:bold; ">P A I D</h1>
+			              	</tr>   
 						</table>
+                <div class="form-group pt-1" style="margin-top: 30px;">
+           
+                  <label for="chkout" style="visibility: hidden;">Back</label>
+                  <!-- <button type="button" id="exportButton" class="btn btn-success btn-block" onclick="window.history.back()">Go Back</button> -->
+                 <button type="button" id="exportButton" class="btn btn-success btn-block" onclick="window.location.href = 'customermanage.php';">Go Back</button>
+              </div>
 					</div>
             </div>
 
@@ -162,3 +192,20 @@ mysqli_close($con);
     <!-- END section -->
 
 <?php include 'footer.php' ?>
+
+ <script type="text/javascript" src="js/sweetalert.js" language="javascript"></script>
+
+  <?php
+      if (isset($_GET["stype"]) && $_GET["stype"] == 'successfuly-paid') {
+        echo '
+              <script>
+                    // Use SweetAlert
+                    Swal.fire({
+                        icon: "success",
+                        title: "Successfully Paid !",
+                        text: "We have received your payment and reservation !",
+                    });
+              </script>
+            ';
+      }
+      ?>

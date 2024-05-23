@@ -1,3 +1,41 @@
+<?php
+
+include 'hrssession.php';
+if (!session_id()) {
+    session_start();
+}
+include 'dbconnect.php';
+include 'functions.php'; // Include the file where the getroleid function is defined
+
+// Check if the user is logged in
+if (!isset($_SESSION['userislogged']) || $_SESSION['userislogged'] != 1) {
+    header("Location: index.php");
+    exit;
+}
+
+// Check if the necessary session variables are set
+if (!isset($_SESSION['x_userid']) || empty($_SESSION['x_userid'])) {
+    header("Location: index.php");
+    exit;
+}
+
+$alloweduserclass = array(1,0);
+if (!in_array($_SESSION['x_userclass'], $alloweduserclass)) {
+    header("Location: index.php");
+}
+
+// Proceed with retrieving data
+$sql = "SELECT * FROM o_book
+              LEFT JOIN o_user ON o_book.x_user = o_user.x_userid
+              LEFT JOIN o_room ON o_book.x_room = o_room.x_roomid
+              LEFT JOIN o_status ON o_book.x_status = o_status.x_id
+              WHERE x_status='0'"; //in ('0','1', '2') to display all reservations
+
+$result = mysqli_query($con, $sql);
+
+
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -29,13 +67,31 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 
+          <?php
+
+
+// Check if the userclass is set in the session
+if (isset($_SESSION['x_userclass'])) {
+    // Check if userclass is admin (0)
+    if ($_SESSION['x_userclass'] == 0) {
+        // Admin navigation menu
+        echo '
           <div class="collapse navbar-collapse navbar-light" id="navbarsExample05">
             <ul class="navbar-nav ml-auto pl-lg-5 pl-0">
               <li class="nav-item">
-                <a class="nav-link active" href="home.php">Home</a>
+                <a class="nav-link" href="home.php">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#featuredrooms">Rooms</a>
+                <a class="nav-link" href="dashboard.php">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="manageall.php">All Reservation</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="manage.php">Reservation Approval</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="report.php">Report</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="mailto:support@hotelsunshine.com">Contact</a>
@@ -44,8 +100,35 @@
                 <a class="nav-link" href="logout.php"><span>Logout</span></a>
               </li>
             </ul>
-            
-          </div>
+          </div>';
+    } elseif ($_SESSION['x_userclass'] == 1) {
+        // Customer navigation menu
+        echo '
+          <div class="collapse navbar-collapse navbar-light" id="navbarsExample05">
+            <ul class="navbar-nav ml-auto pl-lg-5 pl-0">
+              <li class="nav-item">
+                <a class="nav-link" href="home.php">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="customer.php">Room Reservation</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="customermanage.php">My Reservation</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="home.php#featuredrooms">Rooms</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="mailto:support@hotelsunshine.com">Contact</a>
+              </li>
+              <li class="nav-item cta">
+                <a class="nav-link" href="logout.php"><span>Logout</span></a>
+              </li>
+            </ul>
+          </div>';
+    }
+}
+?>
         </div>
       </nav>
     </header>
@@ -59,7 +142,20 @@
             <div class="mb-5 element-animate">
               <h1>Welcome to Hotel Sunshine</h1>
               <p>Get a room with our Online Hotel Reservation</p>
-              <p><a href="customer.php" class="btn btn-primary">Book Now</a></p>
+              <!-- <p><a href="customer.php" class="btn btn-primary">Book Now</a></p> -->
+              <?php
+              // Check if the userclass is set in the session
+              if (isset($_SESSION['x_userclass'])) {
+                  // Check if userclass is admin (0)
+                  if ($_SESSION['x_userclass'] == 0) {
+                      // Admin navigation menu
+                      // echo' <p><a href="manageall.php" class="btn btn-primary">Book Now</a></p>';
+                  } elseif ($_SESSION['x_userclass'] == 1) {
+                      // Customer navigation menu
+                      echo' <p><a href="customer.php" class="btn btn-primary">Book Now</a></p>';
+                  }
+              }
+              ?>
             </div>
 
           </div>
@@ -119,7 +215,20 @@
                   <li><span class="ion-ios-crop"></span> 22 ft <sup>2</sup></li>
                 </ul>
                 <p>Plan your holiday in Hotel Sunshine and discover modern guest rooms and scenic views</p>
-                <p><a href="customer.php" class="btn btn-primary btn-sm">Reserve Now</a></p>
+                <!-- <p><a href="customer.php" class="btn btn-primary btn-sm">Reserve Now</a></p> -->
+                <?php
+              // Check if the userclass is set in the session
+              if (isset($_SESSION['x_userclass'])) {
+                  // Check if userclass is admin (0)
+                  if ($_SESSION['x_userclass'] == 0) {
+                      // Admin navigation menu
+                      // echo' <p><a href="manageall.php" class="btn btn-primary btn-sm">Reserve Now</a></p>';
+                  } elseif ($_SESSION['x_userclass'] == 1) {
+                      // Customer navigation menu
+                      echo' <p><a href="customer.php" class="btn btn-primary btn-sm">Reserve Now</a></p>';
+                  }
+              }
+              ?>
               </div>
             </div>
           </div>

@@ -8,6 +8,10 @@ if (!session_id())
 include ('dbconnect.php');
 
 $fid = $_SESSION['xuserid'];
+if (isset($_POST['search'])) {
+    $x_userclass = $_POST['x_userclass'];
+}
+
 ?>
 
 
@@ -34,21 +38,56 @@ $fid = $_SESSION['xuserid'];
   <body>
     
     <header role="banner">
-     
       <nav class="navbar navbar-expand-md navbar-dark bg-light">
         <div class="container">
           <a class="navbar-brand" href="home.php">Hotel Sunshine</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+          <?php
 
+
+// Check if the userclass is set in the session
+if (isset($_SESSION['x_userclass'])) {
+    // Check if userclass is admin (0)
+    if ($_SESSION['x_userclass'] == 0) {
+        // Admin navigation menu
+        echo '
           <div class="collapse navbar-collapse navbar-light" id="navbarsExample05">
             <ul class="navbar-nav ml-auto pl-lg-5 pl-0">
               <li class="nav-item">
                 <a class="nav-link" href="home.php">Home</a>
               </li>
-			<li class="nav-item">
-                <a class="nav-link " href="customer.php">Room Reservation</a>
+              <li class="nav-item">
+                <a class="nav-link" href="dashboard.php">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="manageall.php">All Reservation</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="manage.php">Reservation Approval</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="report.php">Report</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="mailto:support@hotelsunshine.com">Contact</a>
+              </li>
+              <li class="nav-item cta">
+                <a class="nav-link" href="logout.php"><span>Logout</span></a>
+              </li>
+            </ul>
+          </div>';
+    } elseif ($_SESSION['x_userclass'] == 1) {
+        // Customer navigation menu
+        echo '
+          <div class="collapse navbar-collapse navbar-light" id="navbarsExample05">
+            <ul class="navbar-nav ml-auto pl-lg-5 pl-0">
+              <li class="nav-item">
+                <a class="nav-link" href="home.php">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="customer.php">Room Reservation</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="customermanage.php">My Reservation</a>
@@ -56,31 +95,17 @@ $fid = $_SESSION['xuserid'];
               <li class="nav-item">
                 <a class="nav-link" href="home.php#featuredrooms">Rooms</a>
               </li>
-			  <!-- Not Used (dropdown)
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" href="home.php#featuredrooms" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Rooms</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown04">
-                  <a class="dropdown-item" href="home.php#featuredrooms">Room Videos</a>
-                  <a class="dropdown-item active" href="home.php#featuredrooms">Premier Room</a>
-                  <a class="dropdown-item" href="home.php#featuredrooms">Deluxe Room</a>
-                  <a class="dropdown-item" href="home.php#featuredrooms">Standard Room</a>
-                </div>
-              </li>
-			  -->
               <li class="nav-item">
                 <a class="nav-link" href="mailto:support@hotelsunshine.com">Contact</a>
               </li>
-			  <!--
-			  <li class="nav-item">
-				<a class="nav-link" href="#"><?php echo $fid; ?></a>
-			  </li>
-			  -->
-               <li class="nav-item cta">
+              <li class="nav-item cta">
                 <a class="nav-link" href="logout.php"><span>Logout</span></a>
               </li>
             </ul>
-            
-          </div>
+          </div>';
+    }
+}
+?>
         </div>
       </nav>
     </header>
@@ -111,7 +136,9 @@ $fid = $_SESSION['xuserid'];
             <table class="table table-hover">
                 <thead>
                   <tr>
-                      <form method="POST" action="searchresult.php"><br>
+                       <form method="POST" name="search" action="searchresult.php"><br>
+                      <input type="hidden" name="x_userid" value="<?php echo $_SESSION['x_userid']; ?>">
+                       <input type="hidden" name="x_userclass" value="<?php echo $_SESSION['x_userclass']; ?>">
                       <input type="text" placeholder=" Reservation ID" name="search">
                       <button type="submit" value="search"><i class="fa fa-search"></i></button>
                       </form>
