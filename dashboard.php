@@ -258,7 +258,7 @@ $totalProgressBarOccupiedRoom = generateRoomOccupiedProgressBar($roomAvailabilit
                         </div>
                         <div class="card-footer d-flex justify-content-center">
                            <ul class="nav">
-                              <li class="nav-item"><a class="btn btn-default btn-link" href="manage.php"><i class="la la-history"></i>Details</a></li>
+                              <li class="nav-item"><a class="btn btn-default btn-link" href="manage.php#approvedsection"><i class="la la-history"></i>Details</a></li>
                               <!-- <li class="nav-item ml-auto"><a class="btn btn-default btn-link" href="#"><i class="la la-refresh"></i> Refresh</a></li> -->
                            </ul>
                         </div>
@@ -273,7 +273,7 @@ $totalProgressBarOccupiedRoom = generateRoomOccupiedProgressBar($roomAvailabilit
                         </div>
                         <div class="card-footer d-flex justify-content-center"">
                            <ul class="nav">
-                              <li class="nav-item"><a class="btn btn-default btn-link" href="manage.php"><i class="la la-history"></i>Details</a></li>
+                              <li class="nav-item"><a class="btn btn-default btn-link" href="manage.php#approvedsection"><i class="la la-history"></i>Details</a></li>
                               <!-- <li class="nav-item ml-auto"><a class="btn btn-default btn-link" href="#"><i class="la la-refresh"></i> Refresh</a></li> -->
                            </ul>
                         </div>

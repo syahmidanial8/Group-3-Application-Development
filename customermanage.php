@@ -204,7 +204,7 @@ if(isset($_POST['search']))
                 function delConfirmation(event, url)
                 {
                   event.preventDefault(); // Prevent the default link behavior
-
+                  
                   Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",

@@ -123,7 +123,7 @@ mysqli_stmt_close($stmt);
                            <label for="chkout">Check Out Date</label>
                            <div style="position: relative;">
                               <span class="fa fa-calendar icon" style="position: absolute; right: 10px; top: 10px;"></span>
-                              <input type='date' class="form-control" id='chkout' name='checkoutdate' required onchange="updateRoomOptions()" />
+                              <input type='date' class="form-control" id='chkout' name='checkoutdate' required onchange="updateRoomOptions()" disabled/>
                            </div>
                         </div>
                      </div>
@@ -194,6 +194,23 @@ mysqli_stmt_close($stmt);
       </section>
       <!-- END section -->
       <script type="text/javascript" src="js/sweetalert.js" language="javascript"></script>
+      <!-- <script type="text/javascript">
+            function rsvConfirmation() {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Are you sure you want to place reservation?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, reserve it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('reservation-form').submit();
+                    }
+                });
+            }
+         </script> -->
       <?php include 'footer.php';?>
       <?php
       if (isset($_GET["stype"]) && $_GET["stype"] == 'logged') {
@@ -252,6 +269,9 @@ mysqli_stmt_close($stmt);
 
              // Set the minimum check-out date to the selected check-in date
              document.getElementById("chkout").min = checkinDateString;
+
+             // Enable the check-out date field when a check-in date is selected
+             document.getElementById("chkout").disabled = false;
          }
       </script>
 <script>

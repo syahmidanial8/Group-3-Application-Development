@@ -186,9 +186,9 @@ $x_user = $_SESSION['xuserid'];
                      <!-- <a href="#" class="btn btn-primary btn-full text-left mt-3 mb-3"><i class="la la-plus"></i> Add Balance</a> -->
                   </div>
                   <div class="card-footer">
-                     <ul class="nav">
-                        <li class="nav-item"><a class="btn btn-default btn-link" href="manage.php"><i class="la la-history"></i> Details</a></li>
-                        <li class="nav-item ml-auto"><a class="btn btn-default btn-link" href="#"><i class="la la-refresh"></i> Refresh</a></li>
+                     <ul class="nav justify-content-center">
+                        <!-- <li class="nav-item"><a class="btn btn-default btn-link" href="manage.php"><i class="la la-history"></i> Details</a></li> -->
+                        <li class="nav-item" onclick="window.history.back()"><a class="btn btn-default btn-link" href="#"><i class="la la-refresh"></i>Cancel</a></li>
                      </ul>
                   </div>
                </div>
