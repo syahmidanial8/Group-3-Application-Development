@@ -69,7 +69,7 @@ $x_user = $_SESSION['xuserid'];
 <!doctype html>
 <html lang="en">
    <head>
-      <title>Hotel Reservation System</title>
+      <title>Online Hotel Reservation</title>
  <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://merchant-ui-api.stripe.com https://merchant-ui-api.stripe.com/link/set-cookie;">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
       <meta charset="utf-8">
@@ -142,7 +142,7 @@ $x_user = $_SESSION['xuserid'];
                         <a class="nav-link" href="home.php#featuredrooms">Rooms</a>
                      </li>
                      <li class="nav-item">
-                        <a class="nav-link" href="mailto:support@hotelsunshine.com">Contact</a>
+                        <a class="nav-link" href="mailto:support@megahjaya.com">Contact</a>
                      </li>
                      <li class="nav-item cta">
                         <a class="nav-link" href="logout.php"><span>Logout</span></a>
@@ -186,9 +186,9 @@ $x_user = $_SESSION['xuserid'];
                      <!-- <a href="#" class="btn btn-primary btn-full text-left mt-3 mb-3"><i class="la la-plus"></i> Add Balance</a> -->
                   </div>
                   <div class="card-footer">
-                     <ul class="nav justify-content-center">
-                        <!-- <li class="nav-item"><a class="btn btn-default btn-link" href="manage.php"><i class="la la-history"></i> Details</a></li> -->
-                        <li class="nav-item" onclick="window.history.back()"><a class="btn btn-default btn-link" href="#"><i class="la la-refresh"></i>Cancel</a></li>
+                     <ul class="nav">
+                        <li class="nav-item"><a class="btn btn-default btn-link" href="manage.php"><i class="la la-history"></i> Details</a></li>
+                        <li class="nav-item ml-auto"><a class="btn btn-default btn-link" href="#"><i class="la la-refresh"></i> Refresh</a></li>
                      </ul>
                   </div>
                </div>
