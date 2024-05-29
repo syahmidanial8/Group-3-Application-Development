@@ -156,6 +156,11 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
 				echo "<td>".$row['x_totalfee']."</td>";
 				echo "</tr>";
 
+        echo "<tr>";
+				echo "<td>Customer Note :</td>";
+				echo "<td>".$row['x_comment']."</td>";
+				echo "</tr>";
+
 				echo "<tr>";
 				echo "<td>Approval </td>";
 				echo "<td><select name='stat'>";

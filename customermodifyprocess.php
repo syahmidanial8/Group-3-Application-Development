@@ -1,5 +1,5 @@
 <?php 
-include('ohrsession.php');
+include('hrssession.php');
 if (!session_id())
 {
 	session_start(); 
