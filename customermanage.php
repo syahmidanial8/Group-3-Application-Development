@@ -45,7 +45,7 @@ if(isset($_POST['search']))
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Online Hotel Reservation</title>
+    <title>Hotel Reservation System</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -89,7 +89,7 @@ if(isset($_POST['search']))
                 <a class="nav-link" href="home.php#featuredrooms">Rooms</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="mailto:support@megahjaya.com">Contact</a>
+                <a class="nav-link" href="mailto:support@hotelsunshine.com">Contact</a>
               </li>
                <li class="nav-item cta">
                 <a class="nav-link" href="logout.php"><span>Logout</span></a>
@@ -204,7 +204,7 @@ if(isset($_POST['search']))
                 function delConfirmation(event, url)
                 {
                   event.preventDefault(); // Prevent the default link behavior
-
+                  
                   Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
