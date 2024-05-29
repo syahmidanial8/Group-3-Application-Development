@@ -45,13 +45,20 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
           <div class="collapse navbar-collapse navbar-light" id="navbarsExample05">
             <ul class="navbar-nav ml-auto pl-lg-5 pl-0">
               <li class="nav-item">
-                <a class="nav-link" href="manage.php">Home</a>
+                <a class="nav-link" href="home.php">Home</a>
+              </li>
+              
+             <li class="nav-item">
+                <a class="nav-link" href="dashboard.php">Dashboard</a>
               </li>
              <li class="nav-item">
                 <a class="nav-link" href="manageall.php">All Reservation</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="manage.php">Reservation Approval</a>
+              </li>
+               <li class="nav-item">
+                <a class="nav-link" href="report.php">Report</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="mailto:support@hotelsunshine.com">Contact</a>
@@ -60,7 +67,6 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
                 <a class="nav-link" href="logout.php"><span>Logout</span></a>
               </li>
             </ul>
-            
           </div>
         </div>
       </nav>
