@@ -62,7 +62,7 @@ function countCheckIn()
     //         AND x_datein BETWEEN DATE_FORMAT(CURDATE(), '%Y-%m-01') AND LAST_DAY(CURDATE())";
     $sql = "SELECT COUNT(x_bookid) AS totalCheckIn
         FROM o_book
-        WHERE x_status IN (0, 1)
+        WHERE x_status IN (1)
         AND x_datein = CURDATE()";
 
     // Execute the query
@@ -92,7 +92,7 @@ function countCheckOut()
 
     $sql = "SELECT COUNT(x_bookid) AS totalCheckOut
             FROM o_book
-            WHERE x_status IN (0, 1)
+            WHERE x_status IN (1)
             AND x_dateout = CURDATE()";
 
 
@@ -222,7 +222,7 @@ function generateRoomAvailabilityProgressBar($totalRooms, $availableRooms)
     $progressBarHTML = '
     <div class="progress-card">
         <div class="d-flex justify-content-between mb-1">
-            <span class="text-muted">Available Rooms</span>
+            <span class="text-muted">Available Rooms (today)</span>
             <span class="text-muted fw-bold">' . $availableRooms . ' rooms / ' . $totalRooms . ' total rooms</span>
         </div>
         <div class="progress mb-2" style="height: 7px;">
@@ -245,7 +245,7 @@ function getRoomAvailabilityFromDatabase($con)
                     SELECT COUNT(*)
                     FROM o_book ob
                     RIGHT JOIN o_room oro ON ob.x_room = oro.x_roomid
-                    WHERE ob.x_status IN (0, 1) AND ob.x_datein = CURDATE()
+                    WHERE ob.x_status IN (1) AND ob.x_datein = CURDATE()
                 ) AS bookedRoom,
                 (
                     SELECT COUNT(*)
@@ -254,7 +254,7 @@ function getRoomAvailabilityFromDatabase($con)
                     SELECT COUNT(*)
                     FROM o_book ob
                     RIGHT JOIN o_room oro ON ob.x_room = oro.x_roomid
-                    WHERE ob.x_status IN (0, 1) AND ob.x_datein = CURDATE()
+                    WHERE ob.x_status IN (1) AND ob.x_datein = CURDATE()
                 ) AS availableRooms;";
 
     // Execute the query
@@ -279,7 +279,7 @@ function getRoomOccupiedFromDatabase($con)
                     SELECT COUNT(*)
                     FROM o_book ob
                     RIGHT JOIN o_room oro ON ob.x_room = oro.x_roomid
-                    WHERE ob.x_status IN (0, 1) AND ob.x_datein = CURDATE()
+                    WHERE ob.x_status IN (1) AND ob.x_datein = CURDATE()
                 ) AS occupiedRooms;";
 
     // Execute the query
@@ -313,7 +313,7 @@ function generateRoomOccupiedProgressBar($totalRooms, $occupied)
     $progressBarHTML = '
     <div class="progress-card">
         <div class="d-flex justify-content-between mb-1">
-            <span class="text-muted">Occupied Rooms</span>
+            <span class="text-muted">Occupied Rooms (today)</span>
             <span class="text-muted fw-bold">' . $occupied . ' rooms / ' . $totalRooms . ' total rooms</span>
         </div>
         <div class="progress mb-2" style="height: 7px;">
