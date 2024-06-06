@@ -13,7 +13,8 @@ if(isset($_GET['id'])) {
     $bid = $_GET['id'];
     
     // Perform the delete query
-    $sql = "DELETE FROM o_book WHERE x_bookid='$bid'";
+    //$sql = "DELETE FROM o_book WHERE x_bookid='$bid'";
+    $sql = "UPDATE o_book SET x_status = 3 WHERE x_bookid='$bid'";
     if (mysqli_query($con, $sql)) {
         // Check user class and redirect accordingly
         $allowadmin = array(0);

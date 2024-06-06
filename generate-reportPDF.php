@@ -29,6 +29,12 @@ if (isset($_GET['checkindate'], $_GET['checkoutdate'])) {
         // Instantiate and use dompdf
         $dompdf = new Dompdf();
 
+     // Convert logo image to base64
+     $logoPath = 'C:/xampp/htdocs/hrs/images/logo.png';
+     $logoData = base64_encode(file_get_contents($logoPath));
+     $logoSrc = 'data:image/png;base64,' . $logoData;
+
+
         // Load HTML content for the PDF
         $html = '<html><head><style>
             body {
@@ -63,9 +69,19 @@ if (isset($_GET['checkindate'], $_GET['checkoutdate'])) {
             .even {
                 background-color: #ffffff;
             }
+            .header {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .header img {
+                width: 180px; /* Adjust the width of the logo as needed */
+                margin: 0 auto;
+            }
+       
         </style></head><body>';
-        $html .= '<div class="info">Date Exported: ' . date('Y-m-d H:i:s') . '</div>';
-        $html .= '<h2>Booking Report</h2>';
+        $html .= '<div class="header">  <img src="' . $logoSrc . '" alt="Logo"> </div>';
+        $html .= '<div class="header">Report Generated on: ' . date('Y-m-d H:i:s') . '</div><br>';
+        // $html .= '<h3>Booking Report</h3>';
         $html .= '<table>
             <tr>
                 <th>Reservation ID</th>
@@ -98,8 +114,16 @@ if (isset($_GET['checkindate'], $_GET['checkoutdate'])) {
             {
                 $status = "Approved";
             }
-            else{
+            else if ( $row['x_status'] == 2)
+            {
                 $status = "Rejected";
+            }
+            else if ( $row['x_status'] == 3)
+            {
+                $status = "Cancelled";
+            }
+            else{
+                $status = "Unknown";
 
             }
             $html .= '<td>' . $status . '</td>';

@@ -28,7 +28,7 @@ $sql = "SELECT * FROM o_book
         LEFT JOIN o_user ON o_book.x_user = o_user.x_userid
         LEFT JOIN o_room ON o_book.x_room = o_room.x_roomid
         LEFT JOIN o_status ON o_book.x_status = o_status.x_id
-        WHERE x_status in ('0','1', '2')";  //to display all reservations
+        WHERE x_status in ('0','1', '2', '3')";  //to display all reservations
 
 $result = mysqli_query($con, $sql);
 
@@ -169,8 +169,15 @@ if (isset($_POST['search'])) {
                       echo "<td>".$row['x_totalfee']."</td>";
                       echo "<td>".$row['x_name']."</td>";
                       echo "<td>";
-                      echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation(event, this.href);' class ='btn btn-secondary'>Cancel</a>&nbsp;";
-                      // echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation();' class ='btn btn-secondary'>Cancel</a>&nbsp;";
+                      
+                      // echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation(event, this.href);' class ='btn btn-secondary'>Cancel</a>&nbsp;";
+                      // // echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation();' class ='btn btn-secondary'>Cancel</a>&nbsp;";
+                            // Check if the status is not 'Cancelled' (status 3) before displaying the Cancel button
+                      if ($row['x_status'] != 3) {
+                        echo "<a href='customercancel.php?id=" . $row['x_bookid'] . "' onClick='return delConfirmation(event, this.href);' class='btn btn-secondary'>Cancel</a>&nbsp;";
+                      } else {
+                        echo "<a href='#' class='btn btn-secondary disabled' aria-disabled='true'>Cancel</a>&nbsp;";
+                      }
                       echo "<a href='manageapproval.php?id=".$row['x_bookid']."' class ='btn btn-primary'>Modify</a>";
                       echo "</td>";
                       echo "</tr>";
@@ -217,7 +224,7 @@ if (isset($_POST['search'])) {
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: 'Yes, cancel it!'
                   }).then((result) => {
                     if (result.isConfirmed) {
                       window.location.href = url;

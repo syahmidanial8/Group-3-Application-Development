@@ -186,8 +186,12 @@ if (isset($_SESSION['x_userclass'])) {
                               echo "<td>".$row['x_totalfee']."</td>";
                               echo "<td>".$row['x_name']."</td>";
                               echo "<td>";
+                              if ($row['x_status'] != 3) {
                                 echo "<a href='customercancel.php?id=".$row['x_bookid']."' class ='btn btn-secondary'>Cancel</a>&nbsp;";
+                              }
+                              if($row['x_status'] == 0){
                                 echo "<a href='customermodify.php?id=".$row['x_bookid']."' class ='btn btn-primary'>Modify</a>&nbsp";
+                              }
                               echo "</td>";
                               echo "</tr>";
                             }

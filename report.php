@@ -23,33 +23,6 @@ if (!in_array($_SESSION['x_userclass'], $alloweduserclass)) {
     header("Location: index.php");
 }
 
-// Proceed with retrieving data
-$sql = "SELECT * FROM o_book
-        LEFT JOIN o_user ON o_book.x_user = o_user.x_userid
-        LEFT JOIN o_room ON o_book.x_room = o_room.x_roomid
-        LEFT JOIN o_status ON o_book.x_status = o_status.x_id
-        WHERE x_status='0'"; //in ('0','1', '2') to display all reservations
-
-$result = mysqli_query($con, $sql);
-
-// Proceed with retrieving data
-$sql1 = "SELECT * FROM o_book
-        LEFT JOIN o_user ON o_book.x_user = o_user.x_userid
-        LEFT JOIN o_room ON o_book.x_room = o_room.x_roomid
-        LEFT JOIN o_status ON o_book.x_status = o_status.x_id
-        WHERE x_status='1'"; //in ('0','1', '2') to display all reservations
-
-$result1 = mysqli_query($con, $sql1);
-
-// Proceed with retrieving data
-$sql2 = "SELECT * FROM o_book
-        LEFT JOIN o_user ON o_book.x_user = o_user.x_userid
-        LEFT JOIN o_room ON o_book.x_room = o_room.x_roomid
-        LEFT JOIN o_status ON o_book.x_status = o_status.x_id
-        WHERE x_status='2'"; //in ('0','1', '2') to display all reservations
-
-$result2 = mysqli_query($con, $sql2);
-
 if (isset($_POST['search_report'])) {
     $x_userclass = $_POST['x_userclass'];
     $checkindate = $_POST['checkindate'];

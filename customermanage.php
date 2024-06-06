@@ -175,11 +175,15 @@ if(isset($_POST['search']))
                   echo "<td>".$row['x_totalfee']."</td>";
                   echo "<td>".$row['x_name']."</td>";
                   echo "<td>";
+
+                  // Check if the status is not 'Cancelled' (status 3) before displaying the Cancel button
+                  if ($row['x_status'] != 3) {
                   echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation(event, this.href);' class ='btn btn-secondary'>Cancel</a>&nbsp;";
-                    // echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation();' class ='btn btn-secondary'>Cancel</a>&nbsp;";
-                    if($row['x_status'] == 0){
-                      echo "<a href='customermodify.php?id=" . $row['x_bookid'] . "' class ='btn btn-primary'>Modify</a>&nbsp";
-                    }
+                  }
+                   // echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation();' class ='btn btn-secondary'>Cancel</a>&nbsp;";
+                  if($row['x_status'] == 0){
+                    echo "<a href='customermodify.php?id=" . $row['x_bookid'] . "' class ='btn btn-primary'>Modify</a>&nbsp";
+                  }
                     
                   echo "</td>";
                   echo "</tr>";

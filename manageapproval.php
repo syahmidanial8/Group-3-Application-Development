@@ -177,6 +177,10 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
 					{
 						echo"<option value='".$rowlist['x_id']."'></option>";
 					}
+          else if ($rowlist['x_id'] == '3') 
+					{
+						//Do nothing (hide it)
+					}
 					else
 					{
 				    	echo"<option value='".$rowlist['x_id']."'>".$rowlist['x_name']."</option>";

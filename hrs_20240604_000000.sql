@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2024 at 06:12 PM
+-- Generation Time: Jun 04, 2024 at 05:44 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -36,6 +36,7 @@ CREATE TABLE `o_book` (
   `x_guestnum` int(2) NOT NULL,
   `x_totalfee` float NOT NULL,
   `x_status` int(5) NOT NULL,
+  `x_cancelreason` varchar(500) NOT NULL,
   `payment_status` varchar(1) DEFAULT NULL,
   `x_emailaddr` varchar(50) NOT NULL,
   `x_telnum` varchar(15) NOT NULL,
@@ -47,10 +48,11 @@ CREATE TABLE `o_book` (
 -- Dumping data for table `o_book`
 --
 
-INSERT INTO `o_book` (`x_bookid`, `x_room`, `x_user`, `x_datein`, `x_dateout`, `x_guestnum`, `x_totalfee`, `x_status`, `payment_status`, `x_emailaddr`, `x_telnum`, `x_comment`, `x_createddate`) VALUES
-(6, '001', 'frahman', '2024-05-22', '2024-05-23', 1, 100, 1, '1', 'fazlur@gmail.com', '012-3123123', 'Need ironboard please', '2024-05-20 23:38:04'),
-(7, '002', 'syazmin', '2024-05-21', '2024-05-22', 2, 100, 1, '1', 'syazmin@gmail.com', '015-4322122', 'Need extra blanket', '2024-05-20 23:51:43'),
-(8, '010', 'asyraf', '2024-05-22', '2024-05-23', 1, 200, 1, '1', 'asyraf@gmail.com', '014-4444444', '', '2024-05-22 23:48:42');
+INSERT INTO `o_book` (`x_bookid`, `x_room`, `x_user`, `x_datein`, `x_dateout`, `x_guestnum`, `x_totalfee`, `x_status`, `x_cancelreason`, `payment_status`, `x_emailaddr`, `x_telnum`, `x_comment`, `x_createddate`) VALUES
+(2, '002', 'syazmin', '2024-06-01', '2024-06-02', 2, 100, 1, '', '1', 'syazmin@gmail.com', '014-4444444', 'Need extra blanket please', '2024-06-01 01:48:22'),
+(3, '003', 'asyraf', '2024-06-02', '2024-06-03', 1, 100, 2, '', '1', 'asyraf@gmail.com', '012-3123123', 'I need to put my dogs here alone for a night stay.\r\nPlease help to feed the dogs', '2024-06-01 01:54:36'),
+(4, '014', 'frahman', '2024-06-04', '2024-06-06', 2, 600, 3, '', '1', 'fazlur@gmail.com', '012-3123123', 'Please prepare a love theme to celebrate our marriage anniversary', '2024-06-01 01:59:27'),
+(6, '019', 'syazmin', '2024-06-01', '2024-06-05', 2, 1200, 1, '', '1', 'syazmin@gmail.com', '014-4444444', 'Need extra towel', '2024-06-01 15:01:40');
 
 -- --------------------------------------------------------
 
@@ -111,7 +113,8 @@ CREATE TABLE `o_status` (
 INSERT INTO `o_status` (`x_id`, `x_name`) VALUES
 (0, 'Received'),
 (1, 'Approved'),
-(2, 'Rejected');
+(2, 'Rejected'),
+(3, 'Cancelled');
 
 -- --------------------------------------------------------
 
@@ -164,12 +167,11 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`transaction_id`, `user_id`, `reservation_id`, `payment_amount`, `payment_currency`, `payment_status`, `payment_method`, `payment_intent_id`, `payment_timestamp`, `created_at`, `updated_at`) VALUES
-(1, 'frahman', 1, '100.00', 'myr', 'Success', 'Debit', 'pi_3PIY8mJ9ml5ZL2Dp1hOWVLmI', '2024-05-20 15:28:45', '2024-05-20 15:28:45', '2024-05-20 15:28:45'),
-(2, 'frahman', 1, '100.00', 'myr', 'Success', 'Debit', 'pi_3PIYDNJ9ml5ZL2Dp0Zl4R0jB', '2024-05-20 15:33:30', '2024-05-20 15:33:30', '2024-05-20 15:33:30'),
-(3, 'frahman', 1, '100.00', 'myr', 'Success', 'Debit', 'pi_3PIYHoJ9ml5ZL2Dp0nXtutFx', '2024-05-20 15:38:04', '2024-05-20 15:38:04', '2024-05-20 15:38:04'),
-(4, 'syazmin', 2, '100.00', 'myr', 'Success', 'Debit', 'pi_3PIYV0J9ml5ZL2Dp0vLRzORm', '2024-05-20 15:51:42', '2024-05-20 15:51:42', '2024-05-20 15:51:42'),
-(5, 'asyraf', 10, '200.00', 'myr', 'Success', 'Debit', 'pi_3PJHPCJ9ml5ZL2Dp1qzDfxzT', '2024-05-22 15:48:42', '2024-05-22 15:48:42', '2024-05-22 15:48:42'),
-(6, 'asyraf', 5, '100.00', 'myr', 'Success', 'Debit', 'pi_3PJHRkJ9ml5ZL2Dp1UcIwHVQ', '2024-05-22 15:51:19', '2024-05-22 15:51:19', '2024-05-22 15:51:19');
+(2, 'syazmin', 1, '100.00', 'myr', 'Success', 'Debit', 'pi_3PMZYwJ9ml5ZL2Dp1l0eWO7C', '2024-05-31 17:48:22', '2024-05-31 17:48:22', '2024-05-31 17:48:22'),
+(3, 'asyraf', 5, '100.00', 'myr', 'Success', 'Debit', 'pi_3PMZexJ9ml5ZL2Dp0cIoMaGF', '2024-05-31 17:54:36', '2024-05-31 17:54:36', '2024-05-31 17:54:36'),
+(4, 'frahman', 15, '600.00', 'myr', 'Success', 'Debit', 'pi_3PMZjfJ9ml5ZL2Dp0WC0x3GV', '2024-05-31 17:59:27', '2024-05-31 17:59:27', '2024-05-31 17:59:27'),
+(5, 'syazmin', 19, '1200.00', 'myr', 'Success', 'Debit', 'pi_3PMlweJ9ml5ZL2Dp1Vs4NMYK', '2024-06-01 07:01:39', '2024-06-01 07:01:39', '2024-06-01 07:01:39'),
+(6, 'frahman', 2, '100.00', 'myr', 'Success', 'Debit', 'pi_3PNz3FJ9ml5ZL2Dp1GCMGqn1', '2024-06-04 15:13:28', '2024-06-04 15:13:28', '2024-06-04 15:13:28');
 
 --
 -- Indexes for dumped tables
@@ -221,7 +223,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `o_book`
 --
 ALTER TABLE `o_book`
-  MODIFY `x_bookid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `x_bookid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `transactions`

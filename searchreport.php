@@ -29,8 +29,12 @@ if (isset($_POST['checkindate'], $_POST['checkoutdate'])) {
                     $status = "Received";
                 } else if ($row['x_status'] == 1) {
                     $status = "Approved";
-                } else {
+                } 
+                else if ($row['x_status'] == 2) {
                     $status = "Rejected";
+                } 
+                else {
+                    $status = "Cancelled";
 
                 }
 
