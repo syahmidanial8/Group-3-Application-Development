@@ -24,9 +24,9 @@ if ($x_userclass === "0") {
           LEFT JOIN o_user ON o_book.x_user = o_user.x_userid
           LEFT JOIN o_room ON o_book.x_room = o_room.x_roomid
           LEFT JOIN o_status ON o_book.x_status = o_status.x_id
-    WHERE `x_bookid` LIKE ? OR `x_room` LIKE ?");
+    WHERE `x_bookid` LIKE ?");
 
-    $stmt->execute(["%" . $_POST['search'] . "%", "%" . $_POST['search'] . "%"]);
+    $stmt->execute(["%" . $_POST['search'] . "%"]);
     $results = $stmt->fetchAll();
 
 }
@@ -38,8 +38,8 @@ if ($x_userclass === "0") {
         LEFT JOIN o_user ON o_book.x_user = o_user.x_userid
         LEFT JOIN o_room ON o_book.x_room = o_room.x_roomid
         LEFT JOIN o_status ON o_book.x_status = o_status.x_id
-        WHERE (`x_bookid` LIKE ? OR `x_room` LIKE ?) AND o_user.x_userid = ?");
-        $stmt->execute(["%" . $_POST['search'] . "%", "%" . $_POST['search'] . "%", $fid]);
+        WHERE (`x_bookid` LIKE ?) AND o_user.x_userid = ?");
+        $stmt->execute(["%" . $_POST['search'] . "%", $fid]);
         $results = $stmt->fetchAll();
 } else {
     echo "User does not have the required class.";

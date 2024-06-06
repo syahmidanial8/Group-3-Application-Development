@@ -167,18 +167,54 @@ if (isset($_POST['search'])) {
                       echo "<td>".$row['x_datein']."</td>";
                       echo "<td>".$row['x_dateout']."</td>";
                       echo "<td>".$row['x_totalfee']."</td>";
-                      echo "<td>".$row['x_name']."</td>";
+                      // echo "<td>".$row['x_name']."</td>";
                       echo "<td>";
-                      
-                      // echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation(event, this.href);' class ='btn btn-secondary'>Cancel</a>&nbsp;";
-                      // // echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation();' class ='btn btn-secondary'>Cancel</a>&nbsp;";
-                            // Check if the status is not 'Cancelled' (status 3) before displaying the Cancel button
-                      if ($row['x_status'] != 3) {
-                        echo "<a href='customercancel.php?id=" . $row['x_bookid'] . "' onClick='return delConfirmation(event, this.href);' class='btn btn-secondary'>Cancel</a>&nbsp;";
-                      } else {
-                        echo "<a href='#' class='btn btn-secondary disabled' aria-disabled='true'>Cancel</a>&nbsp;";
-                      }
-                      echo "<a href='manageapproval.php?id=".$row['x_bookid']."' class ='btn btn-primary'>Modify</a>";
+                        if ($row['x_status'] == 1 or $row['x_status'] == 2) {
+                        $escapedReason = htmlspecialchars($row['x_approvalreason'], ENT_QUOTES, 'UTF-8');
+                        echo "<a href='#' class='reason-link' onclick='showReasonApproval(\"$escapedReason\")'>".$row['x_name']."</a>";
+                        }
+                        else if ($row['x_status'] == 3) {
+                          $escapedReason = htmlspecialchars($row['x_cancelreason'], ENT_QUOTES, 'UTF-8');
+                          echo "<a href='#' class='reason-link' onclick='showReason(\"$escapedReason\")'>".$row['x_name']."</a>";
+                        } else {
+                          echo $row['x_name'];
+                        }
+                      echo "<td>"; //for 'Operation'
+                        // echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation(event, this.href);' class ='btn btn-secondary'>Cancel</a>&nbsp;";
+                        // // echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation();' class ='btn btn-secondary'>Cancel</a>&nbsp;";
+                        
+                        //Original Logic
+                        // Check if the status is not 'Cancelled' (status 3) before displaying the Cancel button
+                        // if ($row['x_status'] != 3) {
+                        //   echo "<a href='customercancel.php?id=" . $row['x_bookid'] . "' onClick='return delConfirmation(event, this.href);' class='btn btn-secondary'>Cancel</a>&nbsp;";
+                        // } else {
+                        //   // echo "<button class='btn btn-info' onclick='s howReason(\"".$row['x_cancelreason']."\")'>Reason</button>&nbsp;";
+                        //   echo "<button class='btn btn-info' onclick='showReason(".htmlspecialchars(json_encode($row['x_cancelreason']), ENT_QUOTES, 'UTF-8').")'>Reason</button>&nbsp;";
+                        // }
+                        // echo "<a href='manageapproval.php?id=".$row['x_bookid']."' class ='btn btn-primary'>Modify</a>";
+
+                        //Second Original Logic
+                        // if($row['x_status'] == 0){
+                        //   echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation(event, this.href);' class ='btn btn-secondary'>Cancel</a>&nbsp;";
+                        // }
+                        // else if($row["x_status"] == 1){
+                        //   echo "<button class='btn btn-info' onclick='showReasonApproval(".htmlspecialchars(json_encode($row['x_approvalreason']), ENT_QUOTES, 'UTF-8').")'>Reason</button>&nbsp;";
+                        // }
+                        // else if($row['x_status'] == 2){
+                        //   echo "<button class='btn btn-info' onclick='showReasonApproval(".htmlspecialchars(json_encode($row['x_approvalreason']), ENT_QUOTES, 'UTF-8').")'>Reason</button>&nbsp;";
+                        // }
+                        // else if($row['x_status'] == 3){
+                        //   // echo "<button class='btn btn-info' onclick='showReason(\"".$row['x_cancelreason']."\")'>Reason</button>&nbsp;";
+                        //   echo "<button class='btn btn-info' onclick='showReason(".htmlspecialchars(json_encode($row['x_cancelreason']), ENT_QUOTES, 'UTF-8').")'>Reason</button>&nbsp;";
+                        // }     
+                        // echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation(event, this.href);' class ='btn btn-secondary'>Cancel</a>&nbsp;";
+                        
+                        if ($row['x_status'] != 3) {
+                          echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation(event, this.href);' class ='btn btn-secondary'>Cancel</a>&nbsp;";
+                        } else { //set disable hover mouse
+                          echo "<a href='#' class ='btn btn-secondary' style='pointer-events: none; opacity: 0.5; cursor: not-allowed;' disabled>Cancel</a>&nbsp;";
+                        }
+                        echo "<a href='manageapproval.php?id=" . $row['x_bookid'] . "' class ='btn btn-primary'>Modify</a>";
                       echo "</td>";
                       echo "</tr>";
                     }
@@ -217,18 +253,64 @@ if (isset($_POST['search'])) {
                 {
                   event.preventDefault(); // Prevent the default link behavior
 
+                  // Swal.fire({
+                  //   title: 'Are you sure?',
+                  //   text: "You won't be able to revert this!",
+                  //   icon: 'warning',
+                  //   showCancelButton: true,
+                  //   confirmButtonColor: '#3085d6',
+                  //   cancelButtonColor: '#d33',
+                  //   confirmButtonText: 'Yes, cancel it!'
+                  // }).then((result) => {
+                  //   if (result.isConfirmed) {
+                  //     window.location.href = url;
+                  //   }
+                  // });
+
                   Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
+                    title: 'Cancellation Reason',
+                    input: 'text',
+                    inputLabel: 'Please enter the reason for cancellation:',
+                    inputPlaceholder: 'Enter reason',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, cancel it!'
+                    inputValidator: (value) => {
+                      if (!value) {
+                        return 'You need to write something!'
+                      }
+                    }
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      window.location.href = url;
+                      var reason = result.value;
+                      Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, cancel it!'
+                      }).then((confirmResult) => {
+                        if (confirmResult.isConfirmed) {
+                          // Redirect to customercancel.php with the reason as a query parameter
+                          window.location.href = url + '&reason=' + encodeURIComponent(reason);
+                        }
+                      });
                     }
+                  });
+                }
+
+                function showReason(reason) {
+                  Swal.fire({
+                    title: 'Cancellation Reason',
+                    text: reason,
+                    icon: 'info'
+                  });
+                }
+                function showReasonApproval(reason) {
+                  Swal.fire({
+                    title: 'Management Reason',
+                    text: reason,
+                    icon: 'info'
                   });
                 }
               </script>

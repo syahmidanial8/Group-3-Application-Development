@@ -189,26 +189,35 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
 				echo "</select></td>";
 				echo "</tr>";
 
-				echo "</table><br><br>";
-				echo "<button type='submit' onClick='return savConfirmation();' class='btn btn-primary'>Save</button>";
-				echo "</form>";
-				echo "</div>";
-				?>
+        echo "<tr>";
+        echo "<td>Management Note :</td>";
+        // echo "<td><input type='text' name='management_note'></td>";
+        echo "<td><input type='text' name='management_note' value='".$row['x_approvalreason']."'></td>";
+        echo "</tr>";
 
-               <script type="text/javascript">
-                function savConfirmation()
-                {
-                  var x = confirm("Are you sure you want to save?");
-                  if (x == true)
-                  {
-                    return true;
+
+        echo "</table><br><br>";
+              echo "<button type='submit' onClick='return savConfirmation(event);' class='btn btn-primary'>Save</button>";
+              echo "</form>";
+              echo "</div>";
+            ?>
+            <script type="text/javascript" src="js/sweetalert.js" language="javascript"></script>
+              <script type="text/javascript">
+              function savConfirmation(event) {
+                event.preventDefault(); // Prevent the form from submitting immediately
+                Swal.fire({
+                  title: 'Are you sure you want to save?',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'Yes, save it!',
+                  cancelButtonText: 'No, cancel!',
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    document.querySelector('form').submit(); // Submit the form if confirmed
                   }
-                  else
-                  {
-                    return false;
-                  }
-                }
-              </script>         
+                });
+              }
+            </script>      
         </div>
       </div>
     </section>

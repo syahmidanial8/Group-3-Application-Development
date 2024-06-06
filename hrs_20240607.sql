@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2024 at 05:44 PM
+-- Generation Time: Jun 06, 2024 at 09:00 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -37,6 +37,7 @@ CREATE TABLE `o_book` (
   `x_totalfee` float NOT NULL,
   `x_status` int(5) NOT NULL,
   `x_cancelreason` varchar(500) NOT NULL,
+  `x_approvalreason` varchar(500) NOT NULL,
   `payment_status` varchar(1) DEFAULT NULL,
   `x_emailaddr` varchar(50) NOT NULL,
   `x_telnum` varchar(15) NOT NULL,
@@ -48,11 +49,12 @@ CREATE TABLE `o_book` (
 -- Dumping data for table `o_book`
 --
 
-INSERT INTO `o_book` (`x_bookid`, `x_room`, `x_user`, `x_datein`, `x_dateout`, `x_guestnum`, `x_totalfee`, `x_status`, `x_cancelreason`, `payment_status`, `x_emailaddr`, `x_telnum`, `x_comment`, `x_createddate`) VALUES
-(2, '002', 'syazmin', '2024-06-01', '2024-06-02', 2, 100, 1, '', '1', 'syazmin@gmail.com', '014-4444444', 'Need extra blanket please', '2024-06-01 01:48:22'),
-(3, '003', 'asyraf', '2024-06-02', '2024-06-03', 1, 100, 2, '', '1', 'asyraf@gmail.com', '012-3123123', 'I need to put my dogs here alone for a night stay.\r\nPlease help to feed the dogs', '2024-06-01 01:54:36'),
-(4, '014', 'frahman', '2024-06-04', '2024-06-06', 2, 600, 3, '', '1', 'fazlur@gmail.com', '012-3123123', 'Please prepare a love theme to celebrate our marriage anniversary', '2024-06-01 01:59:27'),
-(6, '019', 'syazmin', '2024-06-01', '2024-06-05', 2, 1200, 1, '', '1', 'syazmin@gmail.com', '014-4444444', 'Need extra towel', '2024-06-01 15:01:40');
+INSERT INTO `o_book` (`x_bookid`, `x_room`, `x_user`, `x_datein`, `x_dateout`, `x_guestnum`, `x_totalfee`, `x_status`, `x_cancelreason`, `x_approvalreason`, `payment_status`, `x_emailaddr`, `x_telnum`, `x_comment`, `x_createddate`) VALUES
+(2, '002', 'syazmin', '2024-06-01', '2024-06-02', 2, 100, 1, '', '', '1', 'syazmin@gmail.com', '014-4444444', 'Need extra blanket please', '2024-06-01 01:48:22'),
+(3, '003', 'asyraf', '2024-06-02', '2024-06-03', 1, 100, 2, '', 'Breaking hotel policy', '1', 'asyraf@gmail.com', '012-3123123', 'I need to put my dogs here alone for a night stay.\r\nPlease help to feed the dogs', '2024-06-01 01:54:36'),
+(4, '014', 'frahman', '2024-06-04', '2024-06-06', 1, 400, 3, 'I don\'t like your staff!!', '', '1', 'fazlur@gmail.com', '012-3123123', 'Please prepare a love theme to celebrate our marriage anniversary', '2024-06-01 01:59:27'),
+(6, '019', 'syazmin', '2024-06-01', '2024-06-05', 2, 1200, 0, '', 'Test', '1', 'syazmin@gmail.com', '014-4444444', 'Need extra towel', '2024-06-01 15:01:40'),
+(8, '020', 'aliffsyukri', '2024-06-07', '2024-06-12', 1, 1500, 2, '', 'Blacklisted person', '1', 'aliffsyukriterlajaklaris@gmail.com', '012-3278133', 'Saya nak bilik paling mahal saja!!', '2024-06-07 00:35:07');
 
 -- --------------------------------------------------------
 
@@ -137,6 +139,7 @@ CREATE TABLE `o_user` (
 --
 
 INSERT INTO `o_user` (`x_userid`, `x_pwd`, `x_icnum`, `x_name`, `x_tel`, `x_email`, `x_userclass`) VALUES
+('aliffsyukri', '$2y$10$2Zj7GsLjNnwauSSKif87DeqS4Xldknj0wTUoBmjV.Gyq9oUvR./aS', NULL, 'Aliff Syukri', '012-3278133', 'aliffsyukriterlajaklaris@gmail.com', 1),
 ('asyraf', '$2y$10$r/39xJwPjJN3ZY49ZJSVA.YoOgnqoLSy7twKpSKnsvIL2xDs5ELPm', NULL, 'Muhammad Asyraf', '016-34123555', 'muhammad.asyraf@gmail.com', 1),
 ('fizwan', '$2y$10$6k0swHPORdWOxEkwvY2pu.thluB/nA1LoUj83RSH.AnupKz8VOKL.', '950101145055', 'Fadzrul Izwan', '010-5559073', 'fadzrul@gmail.com', 0),
 ('frahman', '$2y$10$BYH4rqWNL/cojXiWwnKBaODmr7YJj2ZTdiudC6fZIDISYRAdBhM5e', '966666146666', 'Fazlur Rahman', '016-6666666', 'fazlur@gmail.com', 1),
@@ -171,7 +174,8 @@ INSERT INTO `transactions` (`transaction_id`, `user_id`, `reservation_id`, `paym
 (3, 'asyraf', 5, '100.00', 'myr', 'Success', 'Debit', 'pi_3PMZexJ9ml5ZL2Dp0cIoMaGF', '2024-05-31 17:54:36', '2024-05-31 17:54:36', '2024-05-31 17:54:36'),
 (4, 'frahman', 15, '600.00', 'myr', 'Success', 'Debit', 'pi_3PMZjfJ9ml5ZL2Dp0WC0x3GV', '2024-05-31 17:59:27', '2024-05-31 17:59:27', '2024-05-31 17:59:27'),
 (5, 'syazmin', 19, '1200.00', 'myr', 'Success', 'Debit', 'pi_3PMlweJ9ml5ZL2Dp1Vs4NMYK', '2024-06-01 07:01:39', '2024-06-01 07:01:39', '2024-06-01 07:01:39'),
-(6, 'frahman', 2, '100.00', 'myr', 'Success', 'Debit', 'pi_3PNz3FJ9ml5ZL2Dp1GCMGqn1', '2024-06-04 15:13:28', '2024-06-04 15:13:28', '2024-06-04 15:13:28');
+(6, 'frahman', 2, '100.00', 'myr', 'Success', 'Debit', 'pi_3PNz3FJ9ml5ZL2Dp1GCMGqn1', '2024-06-04 15:13:28', '2024-06-04 15:13:28', '2024-06-04 15:13:28'),
+(7, 'aliffsyukri', 20, '1500.00', 'myr', 'Success', 'Debit', 'pi_3POjHJJ9ml5ZL2Dp0gvkJBR2', '2024-06-06 16:35:06', '2024-06-06 16:35:06', '2024-06-06 16:35:06');
 
 --
 -- Indexes for dumped tables
@@ -223,13 +227,13 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `o_book`
 --
 ALTER TABLE `o_book`
-  MODIFY `x_bookid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `x_bookid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

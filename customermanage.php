@@ -174,53 +174,84 @@ if(isset($_POST['search']))
                   echo "<td>".$row['x_dateout']."</td>";
                   echo "<td>".$row['x_totalfee']."</td>";
                   echo "<td>".$row['x_name']."</td>";
-                  echo "<td>";
-
+                    // echo "<td>";
+                    // if ($row['x_name'] == "Cancelled") {
+                    //   echo "<a href='#' class='reason-link' onclick='showReason(\"".$row['x_cancelreason']."\")'>".$row['x_name']."</a>";
+                    // } else {
+                    //   echo $row['x_name'];
+                    // }
+                  echo "<td>"; //for 'Operation'
+       
                   // Check if the status is not 'Cancelled' (status 3) before displaying the Cancel button
-                  if ($row['x_status'] != 3) {
-                  echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation(event, this.href);' class ='btn btn-secondary'>Cancel</a>&nbsp;";
-                  }
-                   // echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation();' class ='btn btn-secondary'>Cancel</a>&nbsp;";
                   if($row['x_status'] == 0){
+                    echo "<a href='customercancel.php?id=".$row['x_bookid']. "' onClick='return delConfirmation(event, this.href);' class ='btn btn-secondary'>Cancel</a>&nbsp;";
                     echo "<a href='customermodify.php?id=" . $row['x_bookid'] . "' class ='btn btn-primary'>Modify</a>&nbsp";
                   }
-                    
+                  else if($row["x_status"] == 1){
+                    echo "<button class='btn btn-info' onclick='showReasonApproval(".htmlspecialchars(json_encode($row['x_approvalreason']), ENT_QUOTES, 'UTF-8').")'>Reason</button>";
+                  }
+                  else if($row['x_status'] == 2){
+                    echo "<button class='btn btn-info' onclick='showReasonApproval(".htmlspecialchars(json_encode($row['x_approvalreason']), ENT_QUOTES, 'UTF-8').")'>Reason</button>";
+                  }
+                  else if($row['x_status'] == 3){
+                    //echo "<button class='btn btn-info' onclick='showReason(\"".$row['x_cancelreason']."\")'>Reason</button>&nbsp;";
+                    echo "<button class='btn btn-info' onclick='showReason(".htmlspecialchars(json_encode($row['x_cancelreason']), ENT_QUOTES, 'UTF-8').")'>Reason</button>";
+                }                
                   echo "</td>";
                   echo "</tr>";
                 }
               ?>
-              <!-- <script type="text/javascript">
-                function delConfirmation()
-                {
-                  var x = confirm("Are you sure you want to delete?");
-                  if (x == true)
-                  {
-                    return true;
-                  }
-                  else
-                  {
-                    return false;
-                  }
-                }
-              </script> -->
+              
               <script type="text/javascript" src="js/sweetalert.js" language="javascript"></script>
               <script type="text/javascript">
                 function delConfirmation(event, url)
                 {
                   event.preventDefault(); // Prevent the default link behavior
-                  
+
                   Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
+                    title: 'Cancellation Reason',
+                    input: 'text',
+                    inputLabel: 'Please enter the reason for cancellation:',
+                    inputPlaceholder: 'Enter reason',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    inputValidator: (value) => {
+                      if (!value) {
+                        return 'You need to write something!'
+                      }
+                    }
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      window.location.href = url;
+                      var reason = result.value;
+                      Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, cancel it!'
+                      }).then((confirmResult) => {
+                        if (confirmResult.isConfirmed) {
+                          // Redirect to customercancel.php with the reason as a query parameter
+                          window.location.href = url + '&reason=' + encodeURIComponent(reason);
+                        }
+                      });
                     }
+                  });
+                }
+
+                function showReason(reason) {
+                  Swal.fire({
+                    title: 'Cancellation Reason',
+                    text: reason,
+                    icon: 'info'
+                  });
+                }
+                  function showReasonApproval(reason) {
+                  Swal.fire({
+                    title: 'Management Reason',
+                    text: reason,
+                    icon: 'info'
                   });
                 }
               </script>

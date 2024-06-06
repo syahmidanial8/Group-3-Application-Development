@@ -10,11 +10,15 @@ include('dbconnect.php');
 
 // Retrieve ID from URL
 if(isset($_GET['id'])) {
-    $bid = $_GET['id'];
+    // $bid = $_GET['id'];
+    // $cancelReason = $_GET['reason'];
+    $bid = mysqli_real_escape_string($con, $_GET['id']);
+    $cancelReason = mysqli_real_escape_string($con, $_GET['reason']); // Escape input to prevent SQL injection
+    
     
     // Perform the delete query
     //$sql = "DELETE FROM o_book WHERE x_bookid='$bid'";
-    $sql = "UPDATE o_book SET x_status = 3 WHERE x_bookid='$bid'";
+    $sql = "UPDATE o_book SET x_status = 3, x_cancelreason = '$cancelReason' WHERE x_bookid='$bid'";
     if (mysqli_query($con, $sql)) {
         // Check user class and redirect accordingly
         $allowadmin = array(0);
@@ -31,7 +35,7 @@ if(isset($_GET['id'])) {
         exit;
     } else {
         // Handle query failure (optional)
-        echo "Error deleting record: " . mysqli_error($con);
+        echo "Error cancelling record: " . mysqli_error($con);
     }
 
     // Close the database connection
