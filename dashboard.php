@@ -319,3 +319,19 @@ $totalProgressBarOccupiedRoom = generateRoomOccupiedProgressBar($roomAvailabilit
          </div>
       </section>
       <?php include 'footer.php';?>
+
+<script type="text/javascript" src="js/sweetalert.js" language="javascript"></script>
+
+<?php
+if (isset($_GET["stype"]) && $_GET["stype"] == 'logged') {
+    echo '
+        <script>
+            // Use SweetAlert
+            Swal.fire({
+                icon: "success",
+                title: "Welcome Back!",
+                text: "You Have Successfully Accessed Your Account.",
+            });
+        </script>
+    ';
+}      

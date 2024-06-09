@@ -188,14 +188,14 @@ if(isset($_POST['search']))
                     echo "<a href='customermodify.php?id=" . $row['x_bookid'] . "' class ='btn btn-primary'>Modify</a>&nbsp";
                   }
                   else if($row["x_status"] == 1){
-                    echo "<button class='btn btn-info' onclick='showReasonApproval(".htmlspecialchars(json_encode($row['x_approvalreason']), ENT_QUOTES, 'UTF-8').")'>Reason</button>";
+                    echo "<button class='btn btn-info' onclick='showReasonApprove(".htmlspecialchars(json_encode($row['x_approvalreason']), ENT_QUOTES, 'UTF-8').")'>Info</button>";
                   }
                   else if($row['x_status'] == 2){
-                    echo "<button class='btn btn-info' onclick='showReasonApproval(".htmlspecialchars(json_encode($row['x_approvalreason']), ENT_QUOTES, 'UTF-8').")'>Reason</button>";
+                    echo "<button class='btn btn-info' onclick='showReasonReject(".htmlspecialchars(json_encode($row['x_approvalreason']), ENT_QUOTES, 'UTF-8').")'>Info</button>";
                   }
                   else if($row['x_status'] == 3){
                     //echo "<button class='btn btn-info' onclick='showReason(\"".$row['x_cancelreason']."\")'>Reason</button>&nbsp;";
-                    echo "<button class='btn btn-info' onclick='showReason(".htmlspecialchars(json_encode($row['x_cancelreason']), ENT_QUOTES, 'UTF-8').")'>Reason</button>";
+                    echo "<button class='btn btn-info' onclick='showReason(".htmlspecialchars(json_encode($row['x_cancelreason']), ENT_QUOTES, 'UTF-8').")'>Info</button>";
                 }                
                   echo "</td>";
                   echo "</tr>";
@@ -240,17 +240,39 @@ if(isset($_POST['search']))
                   });
                 }
 
-                function showReason(reason) {
+                function showReasonRsv(reason) {
                   Swal.fire({
-                    title: 'Cancellation Reason',
-                    text: reason,
+                    // title: 'Cancellation Reason',
+                    // text: reason,
+                    title: reason,
+                    text: '[New Reservation]',
                     icon: 'info'
                   });
                 }
-                  function showReasonApproval(reason) {
+                function showReason(reason) {
                   Swal.fire({
-                    title: 'Management Reason',
-                    text: reason,
+                    // title: 'Cancellation Reason',
+                    // text: reason,
+                    title: reason,
+                    text: '[Cancelled]',
+                    icon: 'info'
+                  });
+                }
+                function showReasonApprove(reason) {
+                  Swal.fire({
+                    // title: 'Infomation:',
+                    // text: reason,
+                    title: reason,
+                    text: '[Approved]',
+                    icon: 'info'
+                  });
+                }
+                function showReasonReject(reason) {
+                  Swal.fire({
+                    // title: 'Infomation:',
+                    // text: reason,
+                    title: reason,
+                    text: '[Rejected]',
                     icon: 'info'
                   });
                 }

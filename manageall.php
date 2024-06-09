@@ -169,10 +169,18 @@ if (isset($_POST['search'])) {
                       echo "<td>".$row['x_totalfee']."</td>";
                       // echo "<td>".$row['x_name']."</td>";
                       echo "<td>";
-                        if ($row['x_status'] == 1 or $row['x_status'] == 2) {
-                        $escapedReason = htmlspecialchars($row['x_approvalreason'], ENT_QUOTES, 'UTF-8');
-                        echo "<a href='#' class='reason-link' onclick='showReasonApproval(\"$escapedReason\")'>".$row['x_name']."</a>";
+                      if ($row['x_status'] == 0) {
+                        $escapedReason = htmlspecialchars($row['x_comment'], ENT_QUOTES, 'UTF-8');
+                        echo "<a href='#' class='reason-link' onclick='showReasonRsv(\"$escapedReason\")'>".$row['x_name']."</a>";
                         }
+                        else if ($row['x_status'] == 1) {
+                        $escapedReason = htmlspecialchars($row['x_approvalreason'], ENT_QUOTES, 'UTF-8');
+                        echo "<a href='#' class='reason-link' onclick='showReasonApprove(\"$escapedReason\")'>".$row['x_name']."</a>";
+                        }
+                        else if ($row['x_status'] == 2) {
+                          $escapedReason = htmlspecialchars($row['x_approvalreason'], ENT_QUOTES, 'UTF-8');
+                          echo "<a href='#' class='reason-link' onclick='showReasonReject(\"$escapedReason\")'>".$row['x_name']."</a>";
+                          }
                         else if ($row['x_status'] == 3) {
                           $escapedReason = htmlspecialchars($row['x_cancelreason'], ENT_QUOTES, 'UTF-8');
                           echo "<a href='#' class='reason-link' onclick='showReason(\"$escapedReason\")'>".$row['x_name']."</a>";
@@ -299,17 +307,39 @@ if (isset($_POST['search'])) {
                   });
                 }
 
-                function showReason(reason) {
+                function showReasonRsv(reason) {
                   Swal.fire({
-                    title: 'Cancellation Reason',
-                    text: reason,
+                    // title: 'Cancellation Reason',
+                    // text: reason,
+                    title: reason,
+                    text: '[New Reservation]',
                     icon: 'info'
                   });
                 }
-                function showReasonApproval(reason) {
+                function showReason(reason) {
                   Swal.fire({
-                    title: 'Management Reason',
-                    text: reason,
+                    // title: 'Cancellation Reason',
+                    // text: reason,
+                    title: reason,
+                    text: '[Cancelled]',
+                    icon: 'info'
+                  });
+                }
+                function showReasonApprove(reason) {
+                  Swal.fire({
+                    // title: 'Infomation:',
+                    // text: reason,
+                    title: reason,
+                    text: '[Approved]',
+                    icon: 'info'
+                  });
+                }
+                function showReasonReject(reason) {
+                  Swal.fire({
+                    // title: 'Infomation:',
+                    // text: reason,
+                    title: reason,
+                    text: '[Rejected]',
                     icon: 'info'
                   });
                 }

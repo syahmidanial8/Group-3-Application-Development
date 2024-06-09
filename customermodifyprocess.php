@@ -15,7 +15,7 @@ $checkoutdate = $_POST['checkoutdate'];
 $guestnum = $_POST['guestnum'];
 $email = $_POST['email'];
 $tel = $_POST['tel'];
-$comment = $_POST['comment'];
+$comment = mysqli_real_escape_string($con, $_POST['comment']);
 //$fid = $_SESSION['xuserid'];
 
 

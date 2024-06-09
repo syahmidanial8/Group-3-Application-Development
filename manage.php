@@ -144,11 +144,9 @@ if (isset($_POST['search'])) {
                 <thead>
                   <tr style="background-color: #f8f9fa;">
                       <th class="mt-6 pt-3 text-center">New Reservation</th>
-                      
                       <form method="POST" name="search" action="searchresult.php"><br>
                       <input type="hidden" name="x_userid" value="<?php echo $_SESSION['x_userid']; ?>">
                       <input type="hidden" name="x_userclass" value="<?php echo $_SESSION['x_userclass']; ?>">
-                      
                       <input type="text" placeholder=" Reservation ID" name="search">
                       <button type="submit" value="search"><i class="fa fa-search"></i></button>
                       </form>
@@ -186,10 +184,13 @@ if (isset($_POST['search'])) {
                       echo "<td>".$row['x_datein']."</td>";
                       echo "<td>".$row['x_dateout']."</td>";
                       echo "<td>".$row['x_totalfee']."</td>";
-                      echo "<td>".$row['x_name']."</td>";
+                      // echo "<td>".$row['x_name']."</td>";
                       echo "<td>";
-                      echo "<a href='manageapproval.php?id=".$row['x_bookid']."' class ='btn btn-primary'>Approval</a>";
+                          $escapedReason = htmlspecialchars($row['x_comment'], ENT_QUOTES, 'UTF-8');
+                          echo "<a href='#' class='reason-link' onclick='showReasonRsv(\"$escapedReason\")'>".$row['x_name']."</a>";
                       echo "</td>";
+                      echo "<td>"."<a href='manageapproval.php?id=".$row['x_bookid']."' class ='btn btn-primary'>Review</a>"."</td";
+                      // echo "</td>";
                       echo "</tr>";
                     }
                   ?>
@@ -247,10 +248,13 @@ if (isset($_POST['search'])) {
                       echo "<td>".$row1['x_datein']."</td>";
                       echo "<td>".$row1['x_dateout']."</td>";
                       echo "<td>".$row1['x_totalfee']."</td>";
-                      echo "<td>".$row1['x_name']."</td>";
+                      // echo "<td>".$row1['x_name']."</td>";
                       echo "<td>";
-                      echo "<a href='manageapproval.php?id=".$row1['x_bookid']."' class ='btn btn-primary'>Modify</a>";
+                          $escapedReason = htmlspecialchars($row1['x_approvalreason'], ENT_QUOTES, 'UTF-8');
+                          echo "<a href='#' class='reason-link' onclick='showReasonApprove(\"$escapedReason\")'>".$row1['x_name']."</a>";
                       echo "</td>";
+                      echo "<td>"."<a href='manageapproval.php?id=".$row1['x_bookid']."' class ='btn btn-primary'>Modify</a>"."</td>";
+                      // echo "</td>";
                       echo "</tr>";
                     }
                   ?>
@@ -308,10 +312,13 @@ if (isset($_POST['search'])) {
                       echo "<td>".$row2['x_datein']."</td>";
                       echo "<td>".$row2['x_dateout']."</td>";
                       echo "<td>".$row2['x_totalfee']."</td>";
-                      echo "<td>".$row2['x_name']."</td>";
+                      // echo "<td>".$row2['x_name']."</td>";
                       echo "<td>";
-                      echo "<a href='manageapproval.php?id=".$row2['x_bookid']."' class ='btn btn-primary'>Modify</a>";
+                          $escapedReason = htmlspecialchars($row2['x_approvalreason'], ENT_QUOTES, 'UTF-8');
+                          echo "<a href='#' class='reason-link' onclick='showReasonReject(\"$escapedReason\")'>".$row2['x_name']."</a>";
                       echo "</td>";
+                      echo "<td>"."<a href='manageapproval.php?id=".$row2['x_bookid']."' class ='btn btn-primary'>Modify</a>"."</td>";
+                      // echo "</td>";
                       echo "</tr>";
                     }
                   ?>
@@ -327,7 +334,44 @@ if (isset($_POST['search'])) {
    <?php include 'footer.php'; ?>
    
 <script type="text/javascript" src="js/sweetalert.js" language="javascript"></script>
-
+<script type="text/javascript">
+                function showReasonRsv(reason) {
+                  Swal.fire({
+                    // title: 'Cancellation Reason',
+                    // text: reason,
+                    title: reason,
+                    text: '[New Reservation]',
+                    icon: 'info'
+                  });
+                }
+                function showReason(reason) {
+                  Swal.fire({
+                    // title: 'Cancellation Reason',
+                    // text: reason,
+                    title: reason,
+                    text: '[Cancelled]',
+                    icon: 'info'
+                  });
+                }
+                function showReasonApprove(reason) {
+                  Swal.fire({
+                    // title: 'Infomation:',
+                    // text: reason,
+                    title: reason,
+                    text: '[Approved]',
+                    icon: 'info'
+                  });
+                }
+                function showReasonReject(reason) {
+                  Swal.fire({
+                    // title: 'Infomation:',
+                    // text: reason,
+                    title: reason,
+                    text: '[Rejected]',
+                    icon: 'info'
+                  });
+                }
+</script>
 <?php
 if (isset($_GET["stype"]) && $_GET["stype"] == 'logged') {
     echo '

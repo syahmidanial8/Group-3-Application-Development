@@ -30,7 +30,7 @@ if (mysqli_num_rows($result) == 1) {
         // Redirect based on user type
         if ($row['x_userclass'] == 0) {
 			$_SESSION['x_userclass'] = $row['x_userclass']; // 1 - TRUE, 0 - FALSE
-            header('Location: manage.php?stype=logged');
+            header('Location: dashboard.php?stype=logged');
         } else {
 			$_SESSION['x_userclass'] = $row['x_userclass']; // 1 - TRUE, 0 - FALSE
             header('Location: customer.php?stype=logged');

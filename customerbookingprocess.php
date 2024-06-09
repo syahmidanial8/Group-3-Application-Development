@@ -4,7 +4,9 @@ if (!session_id())
 {
 	session_start(); 
 }
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include ('dbconnect.php');
 //Prevent modify ID on the URL
 if (!isset($_SERVER['HTTP_REFERER'])) {
@@ -38,7 +40,8 @@ $checkoutdate = $_GET['checkoutdate'];
 $guestnum = $_GET['guestnum'];
 $email = $_GET['email'];
 $tel = $_GET['tel'];
-$comment = $_GET['comment'];
+// $comment = $_GET['comment'];
+$comment = htmlspecialchars($_GET['comment']);
 $fid = $_SESSION['xuserid'];
 
 //Calculate total rent
@@ -52,7 +55,8 @@ $daydiff = abs(strtotime($start)-strtotime($end));
 $daynum = $daydiff/(60*60*24);
 $totalprice = $daynum*($rowp['x_price']);
 
-$sql = "INSERT INTO o_book (x_user, x_room, x_datein, x_dateout, x_totalfee, x_status, payment_status, x_guestnum, x_emailaddr, x_telnum, x_comment, x_createddate) VALUES ('$fid', '$froom', '$checkindate', '$checkoutdate', '$totalprice', '0', '1', '$guestnum', '$email', '$tel', '$comment', now())";
+//x_createddate had to offset +1 day due to webhost phpmyadmin is yesterday date
+$sql = "INSERT INTO o_book (x_user, x_room, x_datein, x_dateout, x_totalfee, x_status, payment_status, x_guestnum, x_emailaddr, x_telnum, x_comment, x_createddate) VALUES ('$fid', '$froom', '$checkindate', '$checkoutdate', '$totalprice', '0', '1', '$guestnum', '$email', '$tel', '$comment', NOW())";
 
 //var_dump($sql);
 mysqli_query($con,$sql);

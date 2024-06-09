@@ -109,14 +109,15 @@ $rowb = mysqli_fetch_array($resultb);
         <div class="row">
           <div class="col-md-12">
             <h2 class="mb-5">Reservation Form</h2>
-                <form method="post" action="customermodifyprocess.php" >
+            <form method="post" action="customermodifyprocess.php" onsubmit="return rsvConfirmation(event)">
+                <!-- <form method="post" action="customermodifyprocess.php" > -->
                   <div class="row">
                       <div class="col-sm-6 form-group">
                           
                           <label for="chkin">Check In Date</label>
                           <div style="position: relative;">
                             <span class="fa fa-calendar icon" style="position: absolute; right: 10px; top: 10px;"></span>
-                            <input type='date' class="form-control" id='chkin' name='checkindate' value="<?php echo $rowb['x_datein']; ?>" required />
+                            <input type='date' class="form-control" id='chkin' name='checkindate' value="<?php echo $rowb['x_datein']; ?>" required readonly/>
                           </div>
                       </div>
 
@@ -125,7 +126,7 @@ $rowb = mysqli_fetch_array($resultb);
                           <label for="chkout">Check Out Date</label>
                           <div style="position: relative;">
                             <span class="fa fa-calendar icon" style="position: absolute; right: 10px; top: 10px;"></span>
-                            <input type='date' class="form-control" id='chkout' name='checkoutdate' value="<?php echo $rowb['x_dateout']; ?>" required />
+                            <input type='date' class="form-control" id='chkout' name='checkoutdate' value="<?php echo $rowb['x_dateout']; ?>" required readonly/>
                           </div>
                       </div>
                       
@@ -133,53 +134,46 @@ $rowb = mysqli_fetch_array($resultb);
 
 
                   <div class="row">
+                 
                     <div class="col-md-6 form-group">
                       <label for="sel1">Room</label>
-                        <?php
-                            $sql = "SELECT * FROM o_room";
-                            $result = mysqli_query($con, $sql);
-
-
-                            echo "<select class='form-control' id='sel1' name='froom'>";//fvec
-                            while ($row=mysqli_fetch_array($result))
-                            {
-                                if ($row['x_roomid']==$rowb['x_room'])
-                                {
-                                    echo "<option selected='selected' value='".$row['x_roomid']."'>".$row['x_roomtype']."</option>";
-
-                                }
-                                else
-                                {
-                                     echo "<option value='".$row['x_roomid']."'>" .$row['x_roomtype']."</option>";
-                                }
-                                
-                            }
-                            echo "</select>";
-                        ?>
-                      <!--
-                      <select name="" id="room" class="form-control">
-                        <
-                        <option value="">1 Room</option>
-                        <option value="">2 Rooms</option>
-                        <option value="">3 Rooms</option>
-                        <option value="">4 Rooms</option>
-                        <option value="">5 Rooms</option>
-                      </select>
-                      -->
-                    </div>
-
+                      <?php                     
+                       echo "<select class='form-control' id='sel1' name='froom' readonly>";//fvec <!-- default dropdown value --> 
+                         
+                       
+                          $sql = "select
+                          obo.x_bookid,
+                          oro.x_roomid,
+                          oro.x_roomtype
+                          from o_book obo
+                          left join o_room oro on oro.x_roomid = obo.x_room
+                          where obo.x_bookid = '$bid'";
+                                  
+                          
+                          $result = mysqli_query($con, $sql);
+                          
+                          $options = "";
+                          while ($row = mysqli_fetch_array($result)) {
+                              $options .= "<option value='" . $row['x_roomid'] . "'>" . $row['x_roomid'] . " - " . $row['x_roomtype'] . "</option>";
+                          }
+                          
+                          echo($options);
+                        echo "</select>";
+                          ?>
+                  
+                  </div>
                     <div class="col-md-6 form-group">
                       <label for="message">Guests</label>
-                      <select name="guestnum" id="room" class="form-control">
-                      <!--<option value=""><?php echo $rowb['x_guestnum']; ?> Guests</option>-->
-                        <option value="1">1 Guest</option>
-                        <option value="2">2 Guests</option>
-                        <option value="3">3 Guests</option>
-                        <option value="4">4 Guests</option>
-                        <option value="5">5+ Guests</option>
+                      <select name="guestnum" id="room" class="form-control" onclick="setReadOnly()">
+                          <option value="" id="readOnlyOption"><?php echo $rowb['x_guestnum']; ?> Guests</option>
+                          <option value="1">1 Guest</option>
+                          <option value="2">2 Guests</option>
+                          <option value="3">3 Guests</option>
+                          <option value="4">4 Guests</option>
+                          <option value="5">5+ Guests</option>
                       </select>
-                    </div>
                   </div>
+                </div>
                  <div class="row">
                     <div class="col-md-12 form-group">
                       <label for="tel">Telephone</label>
@@ -208,27 +202,42 @@ $rowb = mysqli_fetch_array($resultb);
                     </div>
                   -->
                     <div class="col-md-12 form-group" style="text-align:right;">
-                      <input type="submit" value="Update" onClick="return mdfConfirmation();" class="btn btn-primary">
+                      <!-- <input type="submit" value="Update" onClick="return rsvConfirmation();" class="btn btn-primary"> -->
+                      <input type="submit" value="Update" class="btn btn-primary">
                     </div>
                   </div>
                 </form>
               </div>
-              <script>
-                 function mdfConfirmation()
-                {
-                  var x = confirm("Are you sure you want to update?");
-                  if (x == true)
-                  {
-                    return true;
-                  }
-                  else
-                  {
+              <script type="text/javascript" src="js/sweetalert.js" language="javascript"></script>
+              <script type="text/javascript">
+                function rsvConfirmation(event) {
+                    event.preventDefault();
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "Do you really want to update the reservation?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, update it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            event.target.submit();
+                        }
+                    });
                     return false;
-                  }
                 }
-              </script>
+            </script>
+            <script>
+                function setReadOnly() {
+                    var readOnlyOption = document.getElementById('readOnlyOption');
+                    readOnlyOption.disabled = true;
+                    readOnlyOption.textContent = ""; // Empty text content
+                }
+            </script>
         </div>
       </div>
     </section>
  
 <?php include 'footer.php'; ?>
+
